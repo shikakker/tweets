@@ -1,37 +1,105 @@
-# Static Tweet
+# Static Tweet — Historical Next.js Rendering Experiment
 
-Completely customizable static tweet for Next.js applications.
+Historical Next.js experiment based on Luis Alvarez's open-source **Static Tweet** project.
 
-## Demo
+The repository renders tweet-like / Twitter content as customizable static React / Next.js UI rather than relying entirely on the standard embedded Twitter widget.
 
-https://static-tweet.vercel.app/1238918791947522049
+The current package metadata still points to the upstream repository and original author, so this checkout should be treated as an **imported / adapted example**, not an original Static Tweet library authored here.
 
-## How to use
+## Upstream provenance
 
-To have a working copy of this project, run the following command:
+Original repository:
 
-```bash
-npx create-next-app static-tweet --example https://github.com/lfades/static-tweet/tree/main
-# or
-yarn create next-app static-tweet --example https://github.com/lfades/static-tweet/tree/main
+```text
+https://github.com/lfades/static-tweet
 ```
 
-To have full access to all Twitter elements, like videos and polls, you'll need a Twitter API Token, once you have it, copy the [`.env.local.example`](.env.local.example) file in the root directory to `.env.local` (which will be ignored by Git):
+Original package author:
 
-```bash
-cp .env.local.example .env.local
+```text
+Luis Alvarez
 ```
 
-Then add your API token to `.env.local`, it should look like this:
+The previous README's demo URL and `create-next-app --example` command referred to that upstream project.
 
-```bash
-TWITTER_API_TOKEN=...
+Preserve the upstream MIT license and attribution when redistributing derived code.
+
+## What the project demonstrates
+
+The historical implementation includes concepts such as:
+
+- server-rendered / static tweet presentation;
+- rich tweet elements;
+- polls / media metadata paths;
+- tweet formatting utilities;
+- Next.js rendering;
+- HTML / Markdown parsing helpers;
+- syntax / content sanitization utilities.
+
+## Tech stack
+
+- Next.js 12
+- React 18
+- TypeScript 4
+- date-fns
+- Cheerio
+- unified / remark / rehype utilities
+- Prism-oriented syntax rendering
+
+## Historical Twitter API boundary
+
+The original project could use a Twitter API token for richer tweet elements such as polls.
+
+Twitter has since become X, and API products, authentication rules, endpoint availability, pricing, terminology, and access tiers have changed significantly since this codebase was created.
+
+Do not assume the old `TWITTER_API_TOKEN` / Twitter Labs instructions still work unchanged.
+
+If reviving this repository, verify the currently supported X / Twitter API and update the integration accordingly.
+
+## Environment files
+
+The repository contains:
+
+```text
+.env
+.env.local.example
 ```
 
-For polls, make sure that you have **Tweets and Users** from **Twitter Labs** enabled for your app. It's required to get access to polls metadata.
+The tracked `.env` currently contains feature flags rather than an API credential.
 
-## Add Static Tweets to Your App
+A real API token should remain in a local / deployment secret store and should **not** be committed to Git.
 
-Currently, there's no package to do this, however you're welcome to copy the files and add it to your project!
+Use an ignored local file or platform environment configuration for secrets.
 
-For an example, take a look at the following blog: [rauchg/blog](https://github.com/rauchg/blog/blob/master/pages/2020/2019-in-review.js)
+## Local development
+
+### Install this repository
+
+```bash
+git clone https://github.com/shikakker/tweets.git
+cd tweets
+npm install
+```
+
+Run:
+
+```bash
+npm run dev
+```
+
+Build / start:
+
+```bash
+npm run build
+npm start
+```
+
+If rich tweet data requires an external API, configure credentials according to the currently supported provider API rather than blindly following the historical upstream instructions.
+
+## Current status
+
+**Historical adapted Next.js / static-tweet rendering experiment.** The repository is useful as evidence of early Next.js component / content-rendering exploration, but it should not be presented as an original social-media platform or as a currently validated X API integration.
+
+## License
+
+The package declares MIT. Preserve the upstream `lfades/static-tweet` license and notices.
