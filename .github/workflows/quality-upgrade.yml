@@ -1,5 +1,6 @@
 name: Upgrade tweets quality gate
 
+# One-shot guarded lint/tooling migration after legacy renderer cleanup.
 on:
   push:
     branches: [ai/product-completion/tweets]
