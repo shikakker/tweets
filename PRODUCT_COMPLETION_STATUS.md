@@ -17,7 +17,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | T07 | DONE | Production audit exposed and removed critical/high historical runtime advisories. |
 | T08 | DONE | Runtime advanced to Next 16.3.5 / React 19.3 / Node 22. |
 | T09 | DONE | Markdown parser/highlighter dependencies retained at patched compatible versions. |
-| T10 | IN PROGRESS | Vercel build-rate capacity is accepting fresh project builds again; this status commit intentionally requests a canonical-branch preview recheck. |
+| T10 | BLOCKED | Exact canonical Vercel preview is still rejected before build by the Hobby build-rate limit. |
 
 ## I01–I10 improvements
 
@@ -32,7 +32,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | I07 | DONE | Guard lockfile migrations with test/build/audit before committing generated dependency state. |
 | I08 | DONE | Upgrade `remark-parse` to 9.0.0 while retaining unified-8 pipeline compatibility. |
 | I09 | DONE | Upgrade `@mapbox/rehype-prism` to 0.9.0; remaining Prism advisory is moderate with no upstream fix. |
-| I10 | IN PROGRESS | Exact canonical preview/browser smoke is being retried now that Vercel accepts fresh builds again. |
+| I10 | BLOCKED | Exact canonical browser/responsive smoke requires Vercel to accept the preview build. |
 
 ## F01–F10 product features
 
@@ -53,12 +53,14 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 
 Historical Vercel deployment `dpl_oeFfQwTigh2tYDotJEZRSzYv3ppa` failed while prerendering `/` with `SyntaxError: Unexpected end of JSON input` inside the Twitter syndication path. The regression test was added before the fix and failed RED. After the fail-soft parser and homepage fallback changes, Quality run `35037951161` passed contracts, frozen install and the same production build.
 
-A subsequent production audit found 1 critical and 5 high advisories in the historical runtime/markdown graph. Patched markdown boundaries removed that class, while Next 15 still carried a high PostCSS advisory. A second RED contract required Next 16.3.5 / React 19.3. Guarded sync run `35038751292` then passed all contracts, regenerated the lockfile, clean-installed it, built the Pages Router app successfully, passed the high/critical production audit, and committed verified lock state `b7f2dd3b4f3091af1e763bffd541f541cfd9744b`. Exact status-head Quality run `35038844004` is also PASS.
+A subsequent production audit found 1 critical and 5 high advisories in the historical runtime/markdown graph. Patched markdown boundaries removed that class, while Next 15 still carried a high PostCSS advisory. A second RED contract required Next 16.3.5 / React 19.3. Guarded sync run `35038751292` then passed all contracts, regenerated the lockfile, clean-installed it, built the Pages Router app successfully, passed the high/critical production audit, and committed verified lock state `b7f2dd3b4f3091af1e763bffd541f541cfd9744b`.
+
+Canonical recheck SHA `5a07c74dc532f7c5ccee6e719832dacb5d6f15bf` has both push and PR Quality runs PASS (`35096812270`, `35096820588`). Vercel did not create a deployment for that SHA: the commit status failed immediately with `Deployment rate limited — retry in 24 hours.` This is an external Hobby-plan delivery-capacity blocker, not an application build failure.
 
 Remaining audit signal: PrismJS remains a moderate transitive advisory through `@mapbox/rehype-prism`; the audit reports no upstream fix. It does not bypass the high/critical gate and is tracked rather than hidden.
 
-The earlier exact completion head `8f94a9ca956c61dc705c37fba61759c8e7a44464` received GitHub Vercel status `failure` with `Deployment rate limited — retry in 24 hours.` On 2026-09-16 the same Vercel project began accepting fresh branch builds again, so this canonical status update is used to re-run hosted verification without changing runtime source.
-
 No merge, production promotion, Twitter credential mutation, or external data mutation is performed automatically.
 
-Status: **PARTIAL** — code/build/security gates are GREEN; canonical hosted verification is being re-run.
+**BLOCKED ONLY BY:** Vercel Hobby build-rate capacity for exact canonical preview/browser verification.
+
+Status: **BLOCKED** — code/build/security gates are GREEN; exact hosted verification cannot run until Vercel accepts a preview build.
