@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import A from './anchor'
+import anchorStyles from './anchor.module.css'
 import styles from './random-tweet.module.css'
 
 const APP_URL = 'https://static-tweet.now.sh'
@@ -52,10 +52,8 @@ export default function RandomTweet({ initialId }) {
 
   return (
     <>
-      <Link href="/[tweet]" as={`/${id}`} passHref>
-        <A blank={false}>
-          {APP_URL}/<span className={success ? styles.id : null}>{id}</span>
-        </A>
+      <Link href={`/${id}`} className={anchorStyles.anchor}>
+        {APP_URL}/<span className={success ? styles.id : null}>{id}</span>
       </Link>
       <div className={styles['random-tweet']}>
         <button
