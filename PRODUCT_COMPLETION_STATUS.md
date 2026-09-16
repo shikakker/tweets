@@ -16,7 +16,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | T06 | DONE | Added deterministic npm CI with production build verification. |
 | T07 | DONE | Production audit exposed and removed critical/high historical runtime advisories. |
 | T08 | DONE | Runtime advanced to Next 16.3.5 / React 19.3 / Node 22. |
-| T09 | DONE | Markdown parser/highlighter dependencies retained at patched compatible versions. |
+| T09 | DONE | Permanent Quality now includes lint plus full dependency audit alongside tests/build/security gates. |
 | T10 | BLOCKED | Exact canonical Vercel preview is still rejected before build by the Hobby build-rate limit. |
 
 ## I01–I10 improvements
@@ -55,12 +55,14 @@ Historical Vercel deployment `dpl_oeFfQwTigh2tYDotJEZRSzYv3ppa` failed while pre
 
 A subsequent production audit found 1 critical and 5 high advisories in the historical runtime/markdown graph. Patched markdown boundaries removed that class, while Next 15 still carried a high PostCSS advisory. A second RED contract required Next 16.3.5 / React 19.3. Guarded sync run `35038751292` then passed all contracts, regenerated the lockfile, clean-installed it, built the Pages Router app successfully, passed the high/critical production audit, and committed verified lock state `b7f2dd3b4f3091af1e763bffd541f541cfd9744b`.
 
-Canonical recheck SHA `5a07c74dc532f7c5ccee6e719832dacb5d6f15bf` has both push and PR Quality runs PASS (`35096812270`, `35096820588`). Vercel did not create a deployment for that SHA: the commit status failed immediately with `Deployment rate limited — retry in 24 hours.` This is an external Hobby-plan delivery-capacity blocker, not an application build failure.
+Canonical recheck SHA `5a07c74dc532f7c5ccee6e719832dacb5d6f15bf` has both push and PR Quality runs PASS (`35096812270`, `35096820588`). A later verified dependency/CI checkpoint `ff8e4d73da56e0f9d7312211d92ef1c0a25ae104` adds strict lint/full-audit state, but its PR-triggered run `35122238485` ended as `action_required` with zero jobs because the triggering actor was `github-actions[bot]`; this is not counted as an application failure or a fresh PASS. This documentation checkpoint is user-authored specifically to obtain a normal read-only Quality run on the final tree.
+
+Vercel still does not create a completion-branch deployment for the canonical head: the commit status reports `Deployment rate limited — retry in 24 hours.` The newest READY deployments in the connected `tweets` project are on the older `portfolio-improvements-2026-08` branch and therefore are not exact-head evidence for PR #2.
 
 Remaining audit signal: PrismJS remains a moderate transitive advisory through `@mapbox/rehype-prism`; the audit reports no upstream fix. It does not bypass the high/critical gate and is tracked rather than hidden.
 
 No merge, production promotion, Twitter credential mutation, or external data mutation is performed automatically.
 
-**BLOCKED ONLY BY:** Vercel Hobby build-rate capacity for exact canonical preview/browser verification.
+**BLOCKED ONLY BY:** Vercel Hobby build-rate capacity for exact canonical preview/browser verification. GitHub final-tree CI is being re-run from this user-authored checkpoint rather than inferred from the bot-triggered `action_required` run.
 
-Status: **BLOCKED** — code/build/security gates are GREEN; exact hosted verification cannot run until Vercel accepts a preview build.
+Status: **PARTIAL** — verified code/build/security baseline is GREEN; final-tree CI recheck and exact hosted verification remain open.
