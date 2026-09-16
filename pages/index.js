@@ -14,8 +14,13 @@ const H2 = components.h2
 const Hr = components.hr
 
 export async function getStaticProps() {
-  const tweet = await fetchTweetAst('1249937011068129280')
-  return { props: { tweet } }
+  try {
+    const tweet = await fetchTweetAst('1249937011068129280')
+    return { props: { tweet } }
+  } catch (error) {
+    console.warn('[tweets] featured tweet unavailable during static generation', error)
+    return { props: { tweet: null } }
+  }
 }
 
 export default function Index({ tweet }) {
@@ -28,7 +33,7 @@ export default function Index({ tweet }) {
         This demo shows off the next-gen Static Site Generation capabilities in
         Next.js. The following tweet:
       </P>
-      <Tweet ast={tweet} />
+      {tweet ? <Tweet ast={tweet} /> : <P>The featured tweet is temporarily unavailable.</P>}
       <P>
         was inlined into the HTML of this page (<Code className="inline">`pages/index.js`</Code>) by
         using <Code className="inline">`getStaticProps`</Code> in your Next.js page (
