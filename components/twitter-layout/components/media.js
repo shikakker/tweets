@@ -7,27 +7,38 @@ const LoadDetailsDialog = dynamic(() => import('../details-dialog'), {
   ssr: false,
 })
 
-export const Img = ({ width, height, src, ...p }) => (
-  <details className={s.details}>
-    <summary
-      className={s.summary}
-      style={{ paddingBottom: `${(height / width) * 100 || 0}%` }}
-    >
-      <Image
-        {...p}
-        className={cn(s.image, p.className)}
-        src={`${src}&name=small`}
-        layout="fill"
-        objectFit="cover"
-        quality={80}
-      />
-    </summary>
+export const Img = ({ width, height, src, ...p }) => {
+  const alt = p.alt || ''
 
-    <details-dialog className={s['details-dialog']}>
-      <div className={s.bg} data-close-dialog />
-      <Image {...p} src={`${src}&name=large`} width={width} height={height} />
-    </details-dialog>
+  return (
+    <details className={s.details}>
+      <summary
+        className={s.summary}
+        style={{ paddingBottom: `${(height / width) * 100 || 0}%` }}
+      >
+        <Image
+          {...p}
+          alt={alt}
+          className={cn(s.image, p.className)}
+          src={`${src}&name=small`}
+          layout="fill"
+          objectFit="cover"
+          quality={80}
+        />
+      </summary>
 
-    <LoadDetailsDialog />
-  </details>
-)
+      <details-dialog className={s['details-dialog']}>
+        <div className={s.bg} data-close-dialog />
+        <Image
+          {...p}
+          alt={alt}
+          src={`${src}&name=large`}
+          width={width}
+          height={height}
+        />
+      </details-dialog>
+
+      <LoadDetailsDialog />
+    </details>
+  )
+}
