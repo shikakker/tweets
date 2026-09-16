@@ -34,7 +34,7 @@ export default function TweetAction({ tweet }) {
           rel="noopener noreferrer"
         >
           <div className={cn('icon', s['icon-profile'])} />
-          <span className={s.text}>See {tweet.name}'s other Tweets</span>
+          <span className={s.text}>See {tweet.name}&apos;s other Tweets</span>
           <div className={cn('icon', s['icon-chevron'])} />
         </a>
       )}
