@@ -1,0 +1,43 @@
+name: Sync tweets lockfile
+
+on:
+  push:
+    branches: [ai/product-completion/tweets]
+    paths:
+      - package.json
+      - .github/workflows/sync-lockfile.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ai/product-completion/tweets
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: node --test tests/*.test.mjs
+      - name: Regenerate dependency lockfile
+        run: npm install --no-audit --no-fund
+      - name: Verify synchronized dependency state
+        run: |
+          npm ci
+          npm run build
+          npm audit --omit=dev --audit-level=high
+      - name: Commit verified lockfile
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo 'package-lock.json already synchronized'
+            exit 0
+          fi
+          git config user.name 'Egor Denisov'
+          git config user.email 'designer.egor@ya.ru'
+          git add package-lock.json
+          git commit -m 'build: sync verified tweets lockfile'
+          git push origin HEAD:ai/product-completion/tweets
