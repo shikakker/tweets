@@ -16,7 +16,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | T06 | DONE | Added deterministic npm CI with production build verification. |
 | T07 | DONE | Production audit exposed and removed critical/high historical runtime advisories. |
 | T08 | DONE | Runtime advanced to Next 16.3.5 / React 19.3 / Node 22. |
-| T09 | DONE | Permanent Quality now includes lint plus full dependency audit alongside tests/build/security gates. |
+| T09 | DONE | Permanent Quality now blocks production/full high-severity audits, tests, zero-warning lint and build. |
 | T10 | BLOCKED | Exact canonical Vercel preview is still rejected before build by the Hobby build-rate limit. |
 
 ## I01–I10 improvements
@@ -28,7 +28,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | I03 | DONE | Serialize missing showcase tweet as `null` rather than `undefined`. |
 | I04 | DONE | Render existing skeleton recovery UI when showcase data is unavailable. |
 | I05 | DONE | Preserve upstream repository/author/license metadata. |
-| I06 | DONE | Add high/critical production dependency audit to permanent Quality CI. |
+| I06 | DONE | Add production and full high-severity dependency audits to permanent Quality CI. |
 | I07 | DONE | Guard lockfile migrations with test/build/audit before committing generated dependency state. |
 | I08 | DONE | Upgrade `remark-parse` to 9.0.0 while retaining unified-8 pipeline compatibility. |
 | I09 | DONE | Upgrade `@mapbox/rehype-prism` to 0.9.0; remaining Prism advisory is moderate with no upstream fix. |
@@ -55,7 +55,7 @@ Historical Vercel deployment `dpl_oeFfQwTigh2tYDotJEZRSzYv3ppa` failed while pre
 
 A subsequent production audit found 1 critical and 5 high advisories in the historical runtime/markdown graph. Patched markdown boundaries removed that class, while Next 15 still carried a high PostCSS advisory. A second RED contract required Next 16.3.5 / React 19.3. Guarded sync run `35038751292` then passed all contracts, regenerated the lockfile, clean-installed it, built the Pages Router app successfully, passed the high/critical production audit, and committed verified lock state `b7f2dd3b4f3091af1e763bffd541f541cfd9744b`.
 
-Canonical recheck SHA `5a07c74dc532f7c5ccee6e719832dacb5d6f15bf` has both push and PR Quality runs PASS (`35096812270`, `35096820588`). A later verified dependency/CI checkpoint `ff8e4d73da56e0f9d7312211d92ef1c0a25ae104` adds strict lint/full-audit state, but its PR-triggered run `35122238485` ended as `action_required` with zero jobs because the triggering actor was `github-actions[bot]`; this is not counted as an application failure or a fresh PASS. This documentation checkpoint is user-authored specifically to obtain a normal read-only Quality run on the final tree.
+Canonical recheck SHA `5a07c74dc532f7c5ccee6e719832dacb5d6f15bf` has both push and PR Quality runs PASS (`35096812270`, `35096820588`). Second sweep found that the then-current workflow did not actually execute the lint/full-audit gates claimed by the registry. This was corrected at `d02be06783d5ae53db2dea85aa67fd55e983718c` and Quality run `35127757207` passed end-to-end: `npm ci`, regression tests, production high-severity audit, full high-severity audit, zero-warning lint, and production build all PASS on Actions v7 / Node 22.
 
 Vercel still does not create a completion-branch deployment for the canonical head: the commit status reports `Deployment rate limited — retry in 24 hours.` The newest READY deployments in the connected `tweets` project are on the older `portfolio-improvements-2026-08` branch and therefore are not exact-head evidence for PR #2.
 
@@ -63,6 +63,6 @@ Remaining audit signal: PrismJS remains a moderate transitive advisory through `
 
 No merge, production promotion, Twitter credential mutation, or external data mutation is performed automatically.
 
-**BLOCKED ONLY BY:** Vercel Hobby build-rate capacity for exact canonical preview/browser verification. GitHub final-tree CI is being re-run from this user-authored checkpoint rather than inferred from the bot-triggered `action_required` run.
+**BLOCKED ONLY BY:** Vercel Hobby build-rate capacity for exact canonical preview/browser verification.
 
-Status: **PARTIAL** — verified code/build/security baseline is GREEN; final-tree CI recheck and exact hosted verification remain open.
+Status: **BLOCKED** — repository install/tests/audits/lint/build are GREEN; exact hosted verification cannot run until Vercel accepts a preview build.
