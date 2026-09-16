@@ -17,7 +17,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | T07 | DONE | Production audit exposed and removed critical/high historical runtime advisories. |
 | T08 | DONE | Runtime advanced to Next 16.3.5 / React 19.3 / Node 22. |
 | T09 | DONE | Markdown parser/highlighter dependencies retained at patched compatible versions. |
-| T10 | BLOCKED | Exact final hosted browser smoke is blocked before build by Vercel deployment rate limiting. |
+| T10 | IN PROGRESS | Vercel build-rate capacity is accepting fresh project builds again; this status commit intentionally requests a canonical-branch preview recheck. |
 
 ## I01–I10 improvements
 
@@ -32,7 +32,7 @@ Product boundary: maintained derivative of Luis Alvarez / `lfades/static-tweet`.
 | I07 | DONE | Guard lockfile migrations with test/build/audit before committing generated dependency state. |
 | I08 | DONE | Upgrade `remark-parse` to 9.0.0 while retaining unified-8 pipeline compatibility. |
 | I09 | DONE | Upgrade `@mapbox/rehype-prism` to 0.9.0; remaining Prism advisory is moderate with no upstream fix. |
-| I10 | BLOCKED | Browser responsive/a11y verification requires a Vercel preview; deployment creation is rate limited. |
+| I10 | IN PROGRESS | Exact canonical preview/browser smoke is being retried now that Vercel accepts fresh builds again. |
 
 ## F01–F10 product features
 
@@ -57,10 +57,8 @@ A subsequent production audit found 1 critical and 5 high advisories in the hist
 
 Remaining audit signal: PrismJS remains a moderate transitive advisory through `@mapbox/rehype-prism`; the audit reports no upstream fix. It does not bypass the high/critical gate and is tracked rather than hidden.
 
-Exact completion head `8f94a9ca956c61dc705c37fba61759c8e7a44464` received GitHub Vercel status `failure` with the explicit description `Deployment rate limited — retry in 24 hours.` No deployment/build was created, so this is an external delivery-capacity blocker rather than a code/build failure.
+The earlier exact completion head `8f94a9ca956c61dc705c37fba61759c8e7a44464` received GitHub Vercel status `failure` with `Deployment rate limited — retry in 24 hours.` On 2026-09-16 the same Vercel project began accepting fresh branch builds again, so this canonical status update is used to re-run hosted verification without changing runtime source.
 
 No merge, production promotion, Twitter credential mutation, or external data mutation is performed automatically.
 
-BLOCKED ONLY BY: Vercel deployment build-rate capacity for exact-head preview/browser verification.
-
-Status: **BLOCKED** — code/build/security gates are GREEN; exact-head hosted verification cannot run until Vercel accepts a preview build.
+Status: **PARTIAL** — code/build/security gates are GREEN; canonical hosted verification is being re-run.
