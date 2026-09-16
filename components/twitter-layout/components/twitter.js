@@ -36,7 +36,7 @@ export const Cashtag = (p) => (
 
 export const Emoji = (p) => (
   <span className={s.emoji}>
-    <Image width={18} height={18} unoptimized {...p} />
+    <Image width={18} height={18} unoptimized {...p} alt={p.alt || ''} />
   </span>
 )
 
