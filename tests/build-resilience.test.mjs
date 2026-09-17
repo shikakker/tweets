@@ -19,9 +19,10 @@ test('homepage serializes a missing tweet and renders a recoverable skeleton ins
 
 test('random tweet API treats missing server provider config as 503 and upstream failure as 502', () => {
   assert.match(tweetsApiSource, /PROVIDER_NOT_CONFIGURED/)
-  assert.match(tweetsApiSource, /res\.status\(503\)/)
+  assert.match(tweetsApiSource, /sendError\(\s*res,\s*503,/)
   assert.match(tweetsApiSource, /PROVIDER_REQUEST_FAILED/)
-  assert.match(tweetsApiSource, /res\.status\(502\)/)
+  assert.match(tweetsApiSource, /sendError\(\s*res,\s*502,/)
   assert.doesNotMatch(tweetsApiSource, /res\.status\(401\)/)
   assert.doesNotMatch(tweetsApiSource, /res\.status\(400\)/)
+  assert.match(tweetsApiSource, /private, no-store/)
 })
