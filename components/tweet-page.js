@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import cn from 'clsx'
-import A from './landing/anchor'
+import anchorStyles from './landing/anchor.module.css'
 import Node from './html/node'
 import components from './twitter-layout/components'
 import TweetSkeleton from './twitter-layout/tweet-skeleton'
@@ -26,8 +26,8 @@ export default function TweetPage({ ast, className }) {
       <footer className={styles.footer}>
         <p>
           🤯 This tweet was statically generated.{' '}
-          <Link href="/" passHref>
-            <A blank={false}>See how</A>
+          <Link href="/" className={anchorStyles.anchor}>
+            See how
           </Link>
         </p>
       </footer>
