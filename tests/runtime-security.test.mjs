@@ -5,6 +5,7 @@ import test from 'node:test'
 
 const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
 const gitignore = await readFile(new URL('../.gitignore', import.meta.url), 'utf8')
+const nextConfig = await readFile(new URL('../next.config.js', import.meta.url), 'utf8')
 
 test('tweet renderer uses patched runtime and markdown boundaries', () => {
   assert.equal(pkg.dependencies?.next, '16.3.5')
@@ -20,4 +21,12 @@ test('repository never ships a tracked root .env file', () => {
   assert.match(gitignore, /^\.env$/m)
   assert.match(gitignore, /^\.env\.\*$/m)
   assert.match(gitignore, /^!\.env\.local\.example$/m)
+})
+
+test('remote tweet images use explicit HTTPS remotePatterns instead of deprecated domains', () => {
+  assert.doesNotMatch(nextConfig, /\bdomains\s*:/)
+  assert.match(nextConfig, /remotePatterns\s*:/)
+  assert.match(nextConfig, /protocol:\s*['"]https['"]/)
+  assert.match(nextConfig, /hostname:\s*['"]pbs\.twimg\.com['"]/)
+  assert.match(nextConfig, /hostname:\s*['"]abs\.twimg\.com['"]/)
 })
