@@ -10,7 +10,7 @@ import { Mention, Hashtag, Cashtag, Emoji, Poll } from './twitter'
 import Tweet from './tweet/tweet'
 import EmbeddedTweet from './embedded-tweet'
 
-export default {
+const components = {
   div: Div,
 
   h1: H1,
@@ -48,3 +48,5 @@ export default {
   Tweet,
   EmbeddedTweet,
 }
+
+export default components

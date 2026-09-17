@@ -12,7 +12,7 @@ function getContainerClassName(dataType) {
   }
 }
 
-export default {
+const handlers = {
   div(props, components, i) {
     const { data } = props
     const type = props.dataType || (data && data.type)
@@ -58,17 +58,29 @@ export default {
 
     if (type === 'mention') {
       const { Mention } = components
-      return <Mention key={i} href={props.href} children={props.children} />
+      return (
+        <Mention key={i} href={props.href}>
+          {props.children}
+        </Mention>
+      )
     }
 
     if (type === 'hashtag') {
       const { Hashtag } = components
-      return <Hashtag key={i} href={props.href} children={props.children} />
+      return (
+        <Hashtag key={i} href={props.href}>
+          {props.children}
+        </Hashtag>
+      )
     }
 
     if (type === 'cashtag') {
       const { Cashtag } = components
-      return <Cashtag key={i} href={props.href} children={props.children} />
+      return (
+        <Cashtag key={i} href={props.href}>
+          {props.children}
+        </Cashtag>
+      )
     }
 
     if (type === 'quote-tweet') {
@@ -101,6 +113,8 @@ export default {
     }
 
     const Blockquote = components.blockquote
-    return <Blockquote key={i} children={props.children} />
+    return <Blockquote key={i}>{props.children}</Blockquote>
   },
 }
+
+export default handlers

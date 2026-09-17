@@ -17,4 +17,6 @@ const A = forwardRef(
   )
 )
 
+A.displayName = 'Anchor'
+
 export default A

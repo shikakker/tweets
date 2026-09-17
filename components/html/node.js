@@ -1,9 +1,14 @@
 import { createElement } from 'react'
 import handlers from './handlers'
 
-const defaultHandler = (name) => (props, components) => {
-  const Comp = components[name]
-  return Comp ? <Comp {...props} /> : createElement(name, props)
+const defaultHandler = (name) => {
+  const Handler = (props, components) => {
+    const Comp = components[name]
+    return Comp ? <Comp {...props} /> : createElement(name, props)
+  }
+
+  Handler.displayName = `HtmlHandler(${name})`
+  return Handler
 }
 
 function handleNode(node, components, i) {
@@ -21,7 +26,6 @@ function handleNode(node, components, i) {
   const { nodes } = node
   const props = { ...node.props, key: i }
 
-  // Always send className as a string
   if (props.className && Array.isArray(props.className)) {
     props.className = props.className.join(' ')
   }
@@ -29,7 +33,9 @@ function handleNode(node, components, i) {
     props.data = node.data
   }
   if (nodes && Array.isArray(nodes)) {
-    props.children = nodes.map((node, i) => handleNode(node, components, i))
+    props.children = nodes.map((childNode, childIndex) =>
+      handleNode(childNode, components, childIndex)
+    )
   }
 
   const element = handler(props, components, i, node)
